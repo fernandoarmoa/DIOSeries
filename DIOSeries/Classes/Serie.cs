@@ -32,6 +32,11 @@ namespace DIOSeries.Classes
             return this.Id;
         }
 
+        public bool RetornaExcluido()
+        {
+            return this.Excluido;
+        }
+
         public void Excluir()
         {
             this.Excluido = true;
@@ -44,6 +49,7 @@ namespace DIOSeries.Classes
             sb.AppendLine($"Título ........: {this.Titulo}");
             sb.AppendLine($"Descrição .....: {this.Descricao}");
             sb.AppendLine($"Ano de Início .: {this.Ano}");
+            sb.AppendLine($"Excluído ......: {(this.Excluido ? "Sim" : "Não")}");
             return sb.ToString();
         }
 

@@ -23,10 +23,13 @@ namespace DIOSeries
                         InserirSerie();
                         break;
                     case "3":
+                        AtualizarSerie();
                         break;
                     case "4":
+                        ExcluirSerie();
                         break;
                     case "5":
+                        VisualizarSerie();
                         break;
                     case "C":
                         Console.Clear();
@@ -40,10 +43,71 @@ namespace DIOSeries
             
         }
 
+        private static void VisualizarSerie()
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(" *** VISUALIZAR SÉRIES *** \n");
+            Console.ResetColor();
+
+            Console.Write("Digite o id da série: ");
+            int IdAtual = int.Parse(Console.ReadLine());
+
+            Serie serie = serieRepositorio.RetornaPorId(IdAtual);
+
+            Console.WriteLine(serie);
+            
+        }
+
+        private static void ExcluirSerie()
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(" *** EXCLUI SÉRIES *** \n");
+            Console.ResetColor();
+
+            Console.Write("Digite o id da série: ");
+            int IdAtual = int.Parse(Console.ReadLine());
+
+            serieRepositorio.Exclui(IdAtual);
+
+        }
+
+        private static void AtualizarSerie()
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(" *** ATUALIZA SÉRIES *** \n");
+            Console.ResetColor();
+
+            Console.Write("Digite o id da série: ");
+            int IdAtual = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("GÊNEROS:");
+
+            foreach(int i in Enum.GetValues(typeof(Genero)))
+            {
+                Console.WriteLine($"{i} - {Enum.GetName(typeof(Genero), i)}");
+            }
+
+            Console.Write("INFORME O GÊNERO ........: ");
+            int genero = int.Parse(Console.ReadLine());
+
+            Console.Write("INFORME O TÍTULO ........: ");
+            string titulo = Console.ReadLine();
+
+            Console.Write("INFORME UMA DESCRIÇÃO ...: ");
+            string descricao = Console.ReadLine();
+
+            Console.Write("INFORME O ANO DE INÍCIO .: ");
+            int ano = int.Parse(Console.ReadLine());
+            
+            Serie serie = new Serie(IdAtual, (Genero)genero, titulo, descricao, ano);
+
+            serieRepositorio.Atualiza(IdAtual, serie);
+        }
+
         private static void InserirSerie()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(" *** INSERIR SÉRIES *** ");
+            Console.WriteLine(" *** INSERIR SÉRIES *** \n");
             Console.ResetColor();
 
             int novoId = serieRepositorio.ProximoId();
@@ -66,7 +130,7 @@ namespace DIOSeries
 
             Console.Write("INFORME O ANO DE INÍCIO .: ");
             int ano = int.Parse(Console.ReadLine());
-
+            
             Serie serie = new Serie(novoId, (Genero)genero, titulo, descricao, ano);
 
             serieRepositorio.Insere(serie);
@@ -76,7 +140,7 @@ namespace DIOSeries
         private static void ListarSeries()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(" *** LISTAR SÉRIES *** ");
+            Console.WriteLine(" *** LISTAR SÉRIES *** \n");
             Console.ResetColor();
 
             var lista = serieRepositorio.Lista();
@@ -86,7 +150,7 @@ namespace DIOSeries
 
             foreach(var serie in lista)
             {
-                Console.WriteLine($"#ID: {serie.RetornaId()} - Título: {serie.RetornaTitulo()}");
+                Console.WriteLine($"#ID: {serie.RetornaId()} - Título: {serie.RetornaTitulo()} {(serie.RetornaExcluido() ? "- Excluído" : "")}");
             }
         }
 
